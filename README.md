@@ -15,7 +15,7 @@ Same design system as the Japan MCP playground — Indonesia tools and data only
 npm start           # serves public/ on http://localhost:8080  (respects $PORT)
 ```
 
-Live **Run** on this site posts to same-origin `/mcp`, which `server.js` proxies to local ID MCP (`http://127.0.0.1:8787`, override with `MCP_URL`) and falls back to staging. Start the Worker with `npm run dev` in `Backend/ID_mcp`. Direct browser calls to staging also work when that host is up (CORS is open on the Worker).
+Live **Run** on Cloudflare Pages calls staging MCP directly (`EP`, CORS open on the Worker). Locally (`npm start` on localhost), it posts to same-origin `/mcp`, which `server.js` proxies to local ID MCP (`http://127.0.0.1:8787`, override with `MCP_URL`) and falls back to staging. Start the Worker with `npm run dev` in `Backend/ID_mcp`.
 
 **Deploy to Cloudflare Pages** (same pattern as UAE / MY / JP):
 
