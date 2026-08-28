@@ -3188,7 +3188,9 @@ const EP='https://id-mcp-staging.monstarxapp.com';
 function liveBase(){
   try{const q=new URLSearchParams(location.search).get('mcp');if(q)return q.replace(/\/$/,'');}catch(e){}
   try{const s=localStorage.getItem('mcp_ep');if(s)return s.replace(/\/$/,'');}catch(e){}
-  if(location.protocol==='http:'||location.protocol==='https:')return '';
+  // Local npm start: same-origin /mcp is proxied by server.js
+  if(/^(localhost|127\.0\.0\.1)$/i.test(location.hostname))return '';
+  // Cloudflare Pages / static hosts have no /mcp proxy — call staging directly (CORS open)
   return EP;
 }
 let LANG=localStorage.getItem('mx-lang-id')||'en';
@@ -3239,7 +3241,7 @@ runQuery:'▶ Run query',running:'Running…',copyCurl:'Copy as cURL',copiedCurl
 noParams:'This tool takes no parameters — just run it.',sampleReqs:'Sample requests',tryPlay:'▶ Try in playground',
 exCall:'Example call & response',exCallSub:'Example call',exRespSub:'Example response — trimmed',
 noParamsBadge:'no params',tabVisual:'Visual',tabJson:'JSON',tabRaw:'Raw',
-contacting:'contacting server…',hintCors:'Staging MCP is unreachable. Start local ID-MCP (`npm run dev` in ../ID-MCP on :8787). Live Run on this site is proxied through /mcp.',
+contacting:'contacting server…',hintCors:'Could not reach the MCP server. On this Pages site Live Run calls staging directly. Locally, run ID-MCP (`npm run dev` in Backend/ID_mcp on :8787) and the playground (`npm start`) so /mcp can proxy.',
 previewNote:'<b>Preview mode.</b> Live queries are sandboxed — download this page and open it from your own host (or locally) to run against the server.',
 paramRequired:'required',paramOptional:'optional'
 },
@@ -3288,7 +3290,7 @@ runQuery:'▶ Jalankan kueri',running:'Menjalankan…',copyCurl:'Salin sebagai c
 noParams:'Alat ini tanpa parameter — langsung jalankan.',sampleReqs:'Contoh permintaan',tryPlay:'▶ Coba di playground',
 exCall:'Contoh panggilan & respons',exCallSub:'Contoh panggilan',exRespSub:'Contoh respons — dipangkas',
 noParamsBadge:'tanpa param',tabVisual:'Visual',tabJson:'JSON',tabRaw:'Raw',
-contacting:'menghubungi server…',hintCors:'MCP staging tidak terjangkau. Jalankan ID-MCP lokal (`npm run dev` di ../ID-MCP pada :8787). Run di situs ini diproksi lewat /mcp.',
+contacting:'menghubungi server…',hintCors:'Tidak bisa menjangkau server MCP. Di situs Pages, Run memanggil staging langsung. Lokal: jalankan ID-MCP (`npm run dev` di Backend/ID_mcp :8787) dan playground (`npm start`) agar /mcp bisa memproksi.',
 previewNote:'<b>Mode pratinjau.</b> Kueri langsung dibatasi sandbox — unduh halaman ini dan buka dari host Anda sendiri untuk menjalankan ke server.',
 paramRequired:'wajib',paramOptional:'opsional'
 }

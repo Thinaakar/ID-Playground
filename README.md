@@ -1,11 +1,11 @@
 # MonstarX Indonesia MCP — Playground
 
-A self-contained **live playground and docs site** for the [MonstarX Indonesia MCP](../ID-MCP) server: **55 free `id_*` tools** (weather, earthquakes, geocoding, wilayah, holidays, KRL, news, prayer times, gold, open data).
+A self-contained **live playground and docs site** for the [MonstarX Indonesia MCP](../../Backend/ID_mcp) server: **55 free `id_*` tools** (weather, earthquakes, geocoding, wilayah, holidays, KRL, news, prayer times, gold, open data).
 
-Same design system as the Japan MCP playground — Indonesia tools and data only. Backend: `id-mcp` (`@monstarx/monstarx-mcp-id`).
+Same design system as the Japan MCP playground — Indonesia tools and data only. Backend: `ID_mcp` (`@monstarx/monstarx-mcp-id`).
 
 > 🔌 **MCP endpoint (staging):** `https://id-mcp-staging.monstarxapp.com/mcp`  
-> Local: `http://localhost:8787/mcp` (from `ID-MCP` + `npm run dev`)
+> Local: `http://localhost:8787/mcp` (from `Backend/ID_mcp` + `npm run dev`)
 
 ---
 
@@ -15,7 +15,15 @@ Same design system as the Japan MCP playground — Indonesia tools and data only
 npm start           # serves public/ on http://localhost:8080  (respects $PORT)
 ```
 
-Live **Run** on this site posts to same-origin `/mcp`, which `server.js` proxies to local ID-MCP (`http://127.0.0.1:8787`, override with `MCP_URL`) and falls back to staging. Start the Worker with `npm run dev` in `../ID-MCP`. Direct browser calls to staging also work when that host is up (CORS is open on the Worker).
+Live **Run** on Cloudflare Pages calls staging MCP directly (`EP`, CORS open on the Worker). Locally (`npm start` on localhost), it posts to same-origin `/mcp`, which `server.js` proxies to local ID MCP (`http://127.0.0.1:8787`, override with `MCP_URL`) and falls back to staging. Start the Worker with `npm run dev` in `Backend/ID_mcp`.
+
+**Deploy to Cloudflare Pages** (same pattern as UAE / MY / JP):
+
+```bash
+npm run build
+$env:CLOUDFLARE_ACCOUNT_ID="bf6b2bcb226d2847802880925b23f57e"
+npx wrangler pages deploy public --project-name id-mcp-playground --branch main --commit-dirty=true
+```
 
 **Regenerate the page** after editing tool metadata or `build/build.py`:
 
